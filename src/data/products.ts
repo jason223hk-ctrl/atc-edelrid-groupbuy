@@ -10,6 +10,9 @@
 
 export const CURRENCY = 'HK$'
 
+// 以 Vite BASE_URL 為前綴，令圖片在根網域及子路徑（GitHub Pages）都正確載入
+const asset = (p: string) => import.meta.env.BASE_URL + p
+
 /** 團購基本資料 */
 export const GROUPBUY = {
   team: 'ATC 第一團',
@@ -76,7 +79,7 @@ export const HELMET = {
     '尺碼：均碼可調（如有特別需要請於備註註明）。',
     '圖片及產品規格僅供參考，所有裝備以工廠最終出貨實物為準。',
   ],
-  images: ['/images/helmets-lineup.jpg'] as string[],
+  images: [asset('images/helmets-lineup.jpg')] as string[],
   sourceUrl: OFFICIAL_SOURCES.productPage,
   colors: [
     { id: 'black', name: '專業黑', nameEn: 'Black', hex: '#1a1a1a', price: 640 },
@@ -119,16 +122,16 @@ export interface SimpleProduct {
 }
 
 const IMG = {
-  helmet: '/images/helmet-thumb.jpg',
-  clear: '/images/acc-visor-clear.jpg',
-  sun: '/images/acc-visor-sun.jpg',
-  fullface: '/images/acc-visor-fullface.jpg',
-  mesh: '/images/acc-visor-mesh.jpg',
-  protector: '/images/acc-visor-protector.jpg',
-  earmuff: '/images/acc-earmuff.jpg',
-  brim: '/images/acc-front-brim.jpg',
-  fullBrim: '/images/acc-full-brim.jpg',
-  neck: '/images/acc-neck.jpg',
+  helmet: asset('images/helmet-thumb.jpg'),
+  clear: asset('images/acc-visor-clear.jpg'),
+  sun: asset('images/acc-visor-sun.jpg'),
+  fullface: asset('images/acc-visor-fullface.jpg'),
+  mesh: asset('images/acc-visor-mesh.jpg'),
+  protector: asset('images/acc-visor-protector.jpg'),
+  earmuff: asset('images/acc-earmuff.jpg'),
+  brim: asset('images/acc-front-brim.jpg'),
+  fullBrim: asset('images/acc-full-brim.jpg'),
+  neck: asset('images/acc-neck.jpg'),
 }
 const HELMET_REF: Component = { img: IMG.helmet, label: '頭盔（另購）', reference: true }
 
