@@ -14,6 +14,9 @@ interface Props {
 }
 
 function PriceTag({ price, confirmed }: { price: number; confirmed: boolean }) {
+  if (!confirmed && price <= 0) {
+    return <span className="pricewarn mono">價錢待確認</span>
+  }
   return (
     <span>
       <span className="price">{formatMoney(price)}</span>
@@ -25,15 +28,19 @@ function PriceTag({ price, confirmed }: { price: number; confirmed: boolean }) {
 export function Shop({ cart, onBack, onNext }: Props) {
   const [detail, setDetail] = useState<DetailData | null>(null)
 
-  // 頭盔：每個顏色一條 cart line
-  const helmetLine = (colorId: string, colorName: string): Omit<CartLine, 'qty'> => ({
+  // 頭盔：每個顏色一條 cart line（HiVis 價錢不同）
+  const helmetLine = (
+    colorId: string,
+    colorName: string,
+    price: number,
+  ): Omit<CartLine, 'qty'> => ({
     key: `helmet:${colorId}`,
     kind: 'helmet',
     productId: HELMET.id,
     name: `${HELMET.name}（${colorName}）`,
     colorId,
     colorName,
-    unitPrice: HELMET.price,
+    unitPrice: price,
     priceConfirmed: HELMET.priceConfirmed,
   })
 
@@ -52,39 +59,45 @@ export function Shop({ cart, onBack, onNext }: Props) {
       <section className="section">
         <div className="section-label">A · Tectum Air 頭盔</div>
         <div className="card">
-          <div className="prow">
-            <div
-              className="helmet-ph"
-              style={{ background: 'radial-gradient(circle at 40% 30%, #2a331f, #10150f)' }}
+          {HELMET.images[0] && (
+            <img
+              src={HELMET.images[0]}
+              alt="EDELRID Tectum Air 五色頭盔"
+              className="prod-img"
+              loading="lazy"
             />
-            <div className="body">
-              <h3>{HELMET.name}</h3>
-              <p className="muted" style={{ fontSize: '0.85rem', margin: '2px 0 6px' }}>
-                {HELMET.shortDesc}
-              </p>
-              <PriceTag price={HELMET.price} confirmed={HELMET.priceConfirmed} />
-              <div style={{ marginTop: 6 }}>
-                <button
-                  className="linkbtn"
-                  onClick={() =>
-                    setDetail({
-                      name: HELMET.name,
-                      detail: HELMET.shortDesc,
-                      specs: HELMET.specs,
-                      notes: HELMET.notes,
-                      sourceUrl: HELMET.sourceUrl,
-                    })
-                  }
-                >
-                  查看詳情 / 規格
-                </button>
-              </div>
+          )}
+          <div className="body">
+            <h3>{HELMET.name}</h3>
+            <p className="muted" style={{ fontSize: '0.85rem', margin: '2px 0 6px' }}>
+              {HELMET.shortDesc}
+            </p>
+            <span>
+              <span className="price">{formatMoney(HELMET.price)} 起</span>
+            </span>
+            <div style={{ marginTop: 6 }}>
+              <button
+                className="linkbtn"
+                onClick={() =>
+                  setDetail({
+                    name: HELMET.name,
+                    detail: HELMET.shortDesc,
+                    specs: HELMET.specs,
+                    notes: HELMET.notes,
+                    sourceUrl: HELMET.sourceUrl,
+                    images: HELMET.images,
+                  })
+                }
+              >
+                查看詳情 / 規格
+              </button>
             </div>
           </div>
 
           <div className="swatch-row">
             {HELMET.colors.map((c) => {
-              const line = helmetLine(c.id, c.name)
+              const price = c.price ?? HELMET.price
+              const line = helmetLine(c.id, c.name, price)
               const qty = cart.qtyOf(line.key)
               return (
                 <div className="swatch" key={c.id}>
@@ -92,6 +105,7 @@ export function Shop({ cart, onBack, onNext }: Props) {
                   <span className="cname">
                     {c.name}
                     {c.hivis && <span className="hivis-tag" style={{ marginLeft: 8 }}>HIVIS</span>}
+                    <span className="swatch-price">{formatMoney(price)}</span>
                   </span>
                   <QtyStepper value={qty} onChange={(d) => cart.changeQty(line, d)} />
                 </div>
@@ -110,7 +124,6 @@ export function Shop({ cart, onBack, onNext }: Props) {
         {BUNDLES.map((b) => {
           const line = simpleLine(b, 'bundle')
           const qty = cart.qtyOf(line.key)
-          const isPlaceholder = b.id === 'bundle-form-other'
           return (
             <div className={'card' + (qty > 0 ? ' selected' : '')} key={b.id}>
               <div className="prow">
@@ -119,35 +132,27 @@ export function Shop({ cart, onBack, onNext }: Props) {
                   <p className="muted" style={{ fontSize: '0.85rem', margin: '2px 0 6px' }}>
                     {b.shortDesc}
                   </p>
-                  {!isPlaceholder && <PriceTag price={b.price} confirmed={b.priceConfirmed} />}
-                  {!isPlaceholder && (
-                    <div style={{ marginTop: 6 }}>
-                      <button
-                        className="linkbtn"
-                        onClick={() =>
-                          setDetail({
-                            name: b.name,
-                            detail: b.detail,
-                            includes: b.includes,
-                            compat: b.compat,
-                            sourceUrl: b.sourceUrl,
-                          })
-                        }
-                      >
-                        查看內容
-                      </button>
-                    </div>
-                  )}
+                  <PriceTag price={b.price} confirmed={b.priceConfirmed} />
+                  <div style={{ marginTop: 6 }}>
+                    <button
+                      className="linkbtn"
+                      onClick={() =>
+                        setDetail({
+                          name: b.name,
+                          detail: b.detail,
+                          includes: b.includes,
+                          compat: b.compat,
+                          sourceUrl: b.sourceUrl,
+                          images: b.images,
+                        })
+                      }
+                    >
+                      查看內容
+                    </button>
+                  </div>
                 </div>
-                {!isPlaceholder && (
-                  <QtyStepper value={qty} onChange={(d) => cart.changeQty(line, d)} />
-                )}
+                <QtyStepper value={qty} onChange={(d) => cart.changeQty(line, d)} />
               </div>
-              {isPlaceholder && (
-                <p className="mono" style={{ fontSize: '0.72rem', color: 'var(--warn)', margin: '6px 0 0' }}>
-                  NEEDS_CONFIRMATION — 待補真實套裝資料
-                </p>
-              )}
             </div>
           )
         })}
@@ -182,6 +187,7 @@ export function Shop({ cart, onBack, onNext }: Props) {
                           detail: a.detail,
                           compat: a.compat,
                           sourceUrl: a.sourceUrl,
+                          images: a.images,
                         })
                       }
                     >

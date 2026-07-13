@@ -1,4 +1,4 @@
-import { GROUPBUY, HELMET, OFFICIAL_SOURCES } from '../data/products'
+import { GROUPBUY, HELMET, VIDEOS } from '../data/products'
 
 interface Props {
   onShop: () => void
@@ -15,6 +15,15 @@ export function Home({ onShop }: Props) {
           頭盔團購
         </h1>
         <p className="lede">{GROUPBUY.subtitle}</p>
+
+        {HELMET.images[0] && (
+          <img
+            src={HELMET.images[0]}
+            alt="EDELRID Tectum Air 五色頭盔"
+            className="hero-img"
+            loading="eager"
+          />
+        )}
 
         <div className="facts">
           <div className="fact">
@@ -63,23 +72,44 @@ export function Home({ onShop }: Props) {
       </section>
 
       <section className="section">
-        <div className="section-label">官方影片</div>
+        <div className="section-label">影片介紹</div>
+
+        {/* EDELRID 官方影片 */}
         <div className="card">
-          {OFFICIAL_SOURCES.officialVideo ? (
-            <div style={{ position: 'relative', paddingTop: '56.25%' }}>
+          <div className="vid-label">{VIDEOS.official.label}</div>
+          <div className="vid-wrap">
+            <iframe
+              title={VIDEOS.official.title}
+              src={`https://www.youtube-nocookie.com/embed/${VIDEOS.official.youtubeId}`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+
+        {/* 團長 ArborJason */}
+        <div className="card">
+          <div className="vid-label">{VIDEOS.arborJason.label}</div>
+          {VIDEOS.arborJason.youtubeId ? (
+            <div className="vid-wrap">
               <iframe
-                title="EDELRID Tectum Air"
-                src={OFFICIAL_SOURCES.officialVideo}
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+                title={VIDEOS.arborJason.label}
+                src={`https://www.youtube-nocookie.com/embed/${VIDEOS.arborJason.youtubeId}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
             </div>
           ) : (
-            <div className="img-ph">
-              官方影片連結待確認
-              <br />
-              （可將 Drive 內 Edelrid helmet.m4v 上載後填入）
-            </div>
+            <p className="muted" style={{ fontSize: '0.86rem', margin: 0 }}>
+              團長 Jason Ma（森伝園藝／香港攀樹學院創辦人）過往有親身介紹此頭盔。
+              <a
+                href={VIDEOS.arborJason.channelUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                {' '}前往 ArborJason YouTube 頻道 ↗
+              </a>
+            </p>
           )}
         </div>
       </section>

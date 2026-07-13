@@ -4,7 +4,7 @@ import type { OrderForm, OrderPayload, CartLine } from '../lib/types'
 import { formatMoney, lineSubtotal, generateOrderNumber, buildOrderPayload } from '../lib/order'
 import { submitOrder } from '../lib/api'
 import { QtyStepper } from './QtyStepper'
-import { GROUPBUY } from '../data/products'
+import { GROUPBUY, TERMS } from '../data/products'
 
 interface Props {
   cart: Cart
@@ -177,6 +177,19 @@ export function Confirm({ cart, form, setForm, onBack, onSubmitted }: Props) {
                 onChange={(e) => setForm({ ...form, note: e.target.value })}
                 placeholder="尺碼要求、特別安排等"
               />
+            </div>
+
+            <div className="section-label" style={{ marginTop: 4 }}>
+              團購條款
+            </div>
+            <div className="card" style={{ marginBottom: 12 }}>
+              <ul className="spec-list" style={{ margin: 0 }}>
+                {TERMS.map((t) => (
+                  <li key={t} style={{ fontSize: '0.82rem' }}>
+                    {t}
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <label className={'check' + (errors.agreed ? ' err' : '')}>

@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useCart } from './lib/useCart'
-import { PRICES_CONFIRMED } from './data/products'
+import { unconfirmedPriceItems } from './data/products'
+import { PAYMENT } from './data/payment'
 import type { OrderPayload, OrderForm } from './lib/types'
 import { Home } from './components/Home'
 import { Shop } from './components/Shop'
@@ -41,6 +42,12 @@ export default function App() {
 
   const step = STEP_INDEX[screen]
 
+  // 頂部警告：列出仍未確認的價格項目 + FPS 是否已填
+  const unconfirmed = unconfirmedPriceItems()
+  const pending: string[] = [...unconfirmed]
+  if (!PAYMENT.fpsConfirmed) pending.push('學院 FPS 號碼')
+  const showBanner = pending.length > 0
+
   return (
     <>
       <header className="hud">
@@ -61,10 +68,9 @@ export default function App() {
         </div>
       )}
 
-      {!PRICES_CONFIRMED && (
+      {showBanner && (
         <div className="banner mono">
-          ⚠ 測試模式：頁面顯示之價格為佔位數字，未經核對，正式開團前請於
-          src/data/products.ts 更新真實團購價。
+          ⚠ 開團前仍待確認：{pending.join('、')}。其餘價格已按官方 Google Form 填入。
         </div>
       )}
 

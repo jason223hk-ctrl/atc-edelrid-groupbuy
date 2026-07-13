@@ -3,17 +3,12 @@
  *  ATC 第一團 — EDELRID Tectum Air 團購產品資料
  * ============================================================================
  *
- *  ⚠️  重要：所有價格目前為「佔位數字」，並非真實團購價。
+ *  價格已根據使用者提供的官方 Google Form 截圖（第 3–5 頁）填入。
+ *  仍待確認項目已標記 `priceConfirmed: false` 及 NEEDS_CONFIRMATION：
+ *    - 原廠配件「前帽簷 Front Brim」價錢（Form 截圖被切走）
+ *    - 學院 FPS 識別碼（見 payment.ts；Form 本身亦留空由行政填寫）
  *
- *  原始 Google Form 截圖／報價未能於本次工作環境取得，因此本檔案內
- *  所有標記 `priceConfirmed: false` 的價格 **必須** 在正式開團收單前，
- *  由人手根據現有 Google Form 逐項核對及更新。
- *
- *  更新方法：改動下方 `price` 數值，並把該項 `priceConfirmed` 設為 true。
- *  當全部項目確認後，把檔案底部的 `PRICES_CONFIRMED` 設為 true，
- *  網站頂部的「價格待核對」警告橫額便會消失。
- *
- *  需人手確認的完整清單見根目錄 README.md → 「開團前價格核對清單」。
+ *  全部確認後，把檔案底部 `PRICES_CONFIRMED` 設為 true，網站頂部警告橫額消失。
  * ============================================================================
  */
 
@@ -23,24 +18,38 @@ export const CURRENCY = 'HK$'
 export const GROUPBUY = {
   team: 'ATC 第一團',
   organiser: '香港攀樹學院 ATC',
+  organiserEn: 'Hong Kong Academy for Tree Climbing',
   title: 'EDELRID Tectum Air 頭盔團購',
-  subtitle: 'EDELRID Tectum Air 頭盔及原廠配件',
+  subtitle: '德國 EDELRID Tectum Air 專業高空工作及攀樹頭盔',
   deadline: '2026 年 7 月 31 日', // 截單日期
   minQtyToConfirm: 20, // 20 頂成團
   etaText: '成團後約 3 星期至 1 個月',
   intro:
-    'ATC 首次官方團購。EDELRID Tectum Air 為專業樹藝／高空工作安全頭盔，符合 EN 12492、EN 397（關閉通風口時）及 ANSI/ISEA Z89.1 標準。今次連同原廠面罩、耳罩等配件一併開團，以團購價回饋各位隊友。',
+    'ATC 首次官方團購。EDELRID Tectum Air 為德國專業樹藝／高空工作安全頭盔，符合 EN 12492、EN 397（關閉通風口時）及 ANSI/ISEA Z89.1 標準。今次連同原廠面罩、耳罩、護頸片等配件一併開團，以團購價回饋各位隊友。',
 } as const
 
-/** 官方產品內容（可合法引用之官方規格）。來源 URL 保留方便日後核對。 */
+/** 官方產品內容及影片。來源 URL 保留方便日後核對。 */
 export const OFFICIAL_SOURCES = {
   productPage: 'https://edelrid.com/us-en/professional/helmet/tectum-air',
   manual: 'https://device.report/manual/16169143',
-  news2025:
-    'https://edelrid.com/us-en/vertical-freedom/edelrid-news/blog/press-new-produkts-work-safety-2025',
-  // NEEDS_CONFIRMATION: 官方 YouTube 影片連結未百分百確認，暫時留空。
-  // 使用者 Google Drive 內有 "Edelrid helmet.m4v" 可自行上載後填入 embed 連結。
-  officialVideo: '',
+} as const
+
+/** 影片：官方 + 團長 ArborJason 頻道 */
+export const VIDEOS = {
+  // EDELRID 官方 Tectum / Tectum Air 介紹片
+  official: {
+    youtubeId: 'CcN76CpvLgY',
+    label: 'EDELRID 官方介紹',
+    title: 'TECTUM & TECTUM AIR: The Perfect Helmets for Every Job',
+  },
+  // 團長 Jason Ma（ArborJason）— 森伝園藝 / 香港攀樹學院創辦人
+  arborJason: {
+    channelUrl: 'https://www.youtube.com/c/ArborJason',
+    // NEEDS_CONFIRMATION：如有 ArborJason 親自介紹 Tectum Air 嘅片，
+    // 填入該片 YouTube ID（例：'abcd1234XYZ'）即會自動 embed。
+    youtubeId: '',
+    label: '團長 ArborJason 親身介紹',
+  },
 } as const
 
 export type PriceStatus = boolean
@@ -48,18 +57,19 @@ export type PriceStatus = boolean
 export interface HelmetColor {
   id: string
   name: string
-  hex: string // 用於顏色圓點示意（非官方精確色）
+  nameEn: string
+  hex: string // 顏色圓點示意
+  price?: number // 若與基本價不同（例：HiVis）
   hivis?: boolean
 }
 
-/** A. Tectum Air 頭盔顏色（同一型號、同一團購價，只是顏色不同） */
+/** A. Tectum Air 頭盔（同型號；HiVis 較貴 HK$10） */
 export const HELMET = {
   id: 'tectum-air',
-  name: 'EDELRID Tectum Air 頭盔',
-  price: 1180, // ⚠️ NEEDS_CONFIRMATION 佔位價
-  priceConfirmed: false as PriceStatus,
-  shortDesc: '專業樹藝安全頭盔 · 可關閉式通風口 · Wing Fit 旋鈕調節',
-  // 官方規格（可引用）
+  name: '德國 EDELRID Tectum Air 專業頭盔',
+  price: 640, // 基本團購價（黑/白/黃/紅）
+  priceConfirmed: true as PriceStatus,
+  shortDesc: '專業高空工作及攀樹安全頭盔 · 可關閉式通風口 · Wing Fit 旋鈕調節',
   specs: [
     '重量：約 455g',
     '外殼：ABS 抗撞擊物料；內襯：EPS 吸震物料',
@@ -69,20 +79,24 @@ export const HELMET = {
     '整合 Euroslot（30mm）、頭燈夾及多個配件掛點',
   ],
   notes: [
-    '尺碼：均碼可調（如需分尺碼請於備註註明，暫按官方單一可調尺寸落單）', // NEEDS_CONFIRMATION：是否分尺碼
-    '顏色示意色點僅供辨識，實物以官方顏色為準。',
+    '尺碼：均碼可調（如有特別需要請於備註註明）。',
+    '圖片及產品規格僅供參考，所有裝備以工廠最終出貨實物為準。',
   ],
-  images: [
-    // NEEDS_CONFIRMATION：官方圖片版權，建議自行上載官方或自攝圖片到 /public/images
-    // 暫以佔位色塊顯示，不引用來源不明圖片。
-  ] as string[],
+  images: ['/images/helmets-lineup.jpg'] as string[],
   sourceUrl: OFFICIAL_SOURCES.productPage,
   colors: [
-    { id: 'black', name: '黑', hex: '#1a1a1a' },
-    { id: 'white', name: '白', hex: '#e8e8e8' },
-    { id: 'yellow', name: '黃', hex: '#f2c200' },
-    { id: 'red', name: '紅', hex: '#c8322b' },
-    { id: 'hivis', name: 'HiVis 螢光黃', hex: '#c8ff00', hivis: true },
+    { id: 'black', name: '專業黑', nameEn: 'Black', hex: '#1a1a1a', price: 640 },
+    { id: 'white', name: '純潔白', nameEn: 'White', hex: '#e8e8e8', price: 640 },
+    { id: 'yellow', name: '活力黃', nameEn: 'Yellow', hex: '#f2c200', price: 640 },
+    { id: 'red', name: '警示紅', nameEn: 'Red', hex: '#b8433a', price: 640 },
+    {
+      id: 'hivis',
+      name: '高能見度黃',
+      nameEn: 'HiVis Yellow',
+      hex: '#c8ff00',
+      price: 650,
+      hivis: true,
+    },
   ] as HelmetColor[],
 } as const
 
@@ -93,92 +107,150 @@ export interface SimpleProduct {
   priceConfirmed: PriceStatus
   shortDesc: string
   detail?: string
-  compat?: string // 相容提示
+  compat?: string
   notes?: string[]
   images?: string[]
   sourceUrl?: string
-  /** 套裝內含項目（僅套裝使用） */
   includes?: string[]
 }
 
-/** B. 團購套裝 */
+const ACCESSORY_IMG = ['/images/accessories-grid.jpg']
+
+/** B. 精選核心防護組合（可揀多款、可揀多件） */
 export const BUNDLES: SimpleProduct[] = [
   {
-    id: 'bundle-visor',
-    name: '高清面罩防護組合',
-    price: 1680, // ⚠️ NEEDS_CONFIRMATION 佔位價
-    priceConfirmed: false,
-    shortDesc: 'Tectum Air 頭盔 + 原廠高清全面罩（Full Face Visor）',
+    id: 'bundle-visor-clear',
+    name: '高清面罩防護組合 A款',
+    price: 390,
+    priceConfirmed: true,
+    shortDesc: '透明面罩 (Clear) + 專用保護片',
     detail:
-      '頭盔連原廠全面罩，透過 30mm Euroslot 快速裝拆，提供全面部防護，適合修剪及碎木作業。',
-    includes: ['Tectum Air 頭盔 ×1', '原廠 Full Face 高清面罩 ×1'],
-    compat: '面罩專為 Tectum / Tectum Air 設計，使用 Euroslot 安裝。',
-    sourceUrl: 'https://edelrid.com/us-en/professional/helmet/helmet-visor-full-face',
+      '透明高清面罩連專用面罩保護片，透過 Euroslot 快速裝拆，提供全面部防護。',
+    includes: ['EDELRID 透明面罩 Visor Clear ×1', 'EDELRID 面罩保護片 Visor Protector ×1'],
+    compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
+    images: ACCESSORY_IMG,
+  },
+  {
+    id: 'bundle-visor-sun',
+    name: '高清面罩防護組合 B款',
+    price: 390,
+    priceConfirmed: true,
+    shortDesc: '遮陽面罩 (Sun) + 專用保護片',
+    detail:
+      '遮陽（茶色）高清面罩連專用面罩保護片，減少強光及眩光，適合日曬環境作業。',
+    includes: ['EDELRID 遮陽面罩 Visor Sun ×1', 'EDELRID 面罩保護片 Visor Protector ×1'],
+    compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
+    images: ACCESSORY_IMG,
   },
   {
     id: 'bundle-core3',
-    name: '樹藝師核心防護三件套',
-    price: 2280, // ⚠️ NEEDS_CONFIRMATION 佔位價
-    priceConfirmed: false,
-    shortDesc: 'Tectum Air 頭盔 + 原廠全面罩 + 原廠耳罩',
+    name: '樹藝師核心防護三件套裝',
+    price: 699,
+    priceConfirmed: true,
+    shortDesc: '網狀面罩 + 防噪耳罩 + 護頸片',
     detail:
-      '一次過齊備頭部、面部及聽力防護。對應官方 Forestry Helmet Set 概念（頭盔 + 聽力保護 + 全面罩）。',
-    includes: ['Tectum Air 頭盔 ×1', '原廠 Full Face 高清面罩 ×1', '原廠耳罩 ×1'],
-    compat: '全部配件以 Euroslot 安裝於 Tectum Air。',
-    sourceUrl:
-      'https://www.rescue-tec.de/en/techn.-equipment/rescue-from-heights/helmets-belts/edelrid-forestry-helmet-set-tectum-air-incl.-hearing-protection-and-full-visor',
-  },
-  {
-    id: 'bundle-form-other',
-    name: '其他現有 Google Form 套裝',
-    price: 0, // ⚠️ NEEDS_CONFIRMATION：內容及價格未知
-    priceConfirmed: false,
-    shortDesc: '（待補：現有 Google Form 若有其他套裝，請於此補上名稱、內容及價格）',
-    detail:
-      'NEEDS_CONFIRMATION：本次未能取得原始 Google Form，若表格內另有套裝組合，請於 src/data/products.ts 補上或刪除本項。',
-    includes: [],
+      '樹藝師必備核心防護：透氣網狀面罩、防噪耳罩及護頸片一次過齊備，對應頭、面、聽力及頸部防護。',
+    includes: [
+      'EDELRID 網狀面罩 Visor Mesh ×1',
+      'EDELRID 防噪耳罩 Ear Muffs ×1',
+      'EDELRID 護頸片 Neck Protector ×1',
+    ],
+    compat: '全部以 Euroslot 安裝於 Tectum / Tectum Air。',
+    images: ACCESSORY_IMG,
   },
 ]
 
-/** C. 原廠配件 */
+/** C. 原廠配件（單件加購，可揀多件） */
 export const ACCESSORIES: SimpleProduct[] = [
   {
-    id: 'acc-visor-full',
-    name: '原廠全面罩 Full Face Visor',
-    price: 620, // ⚠️ NEEDS_CONFIRMATION 佔位價
-    priceConfirmed: false,
-    shortDesc: '全面部防護面罩 · Euroslot 快拆',
-    detail:
-      '高清全面部防護面罩，透過 Euroslot 系統快速安裝於 Tectum / Tectum Air，提供飛屑及碎木防護。',
+    id: 'acc-visor-mesh',
+    name: 'EDELRID 網狀面罩 Visor Mesh',
+    price: 346,
+    priceConfirmed: true,
+    shortDesc: '網狀面罩 · 透氣不阻視線 · 減少反光',
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
-    sourceUrl: 'https://edelrid.com/us-en/professional/helmet/helmet-visor-full-face',
+    images: ACCESSORY_IMG,
   },
   {
-    id: 'acc-visor-mesh',
-    name: '原廠網狀面罩 Mesh Visor',
-    price: 520, // ⚠️ NEEDS_CONFIRMATION 佔位價
-    priceConfirmed: false,
-    shortDesc: '網狀面罩 · 透氣不阻視線 · 減少反光',
-    detail:
-      '網狀設計，透氣度高、不阻擋視線並減少反光，適合長時間戶外作業。Euroslot 快速安裝。',
+    id: 'acc-visor-clear',
+    name: 'EDELRID 透明面罩 Visor Clear',
+    price: 247,
+    priceConfirmed: true,
+    shortDesc: '透明高清面罩 · 全面部防護',
+    compat: '相容 Tectum / Tectum Air（30mm Euroslot）。建議配面罩保護片使用。',
+    images: ACCESSORY_IMG,
+  },
+  {
+    id: 'acc-visor-sun',
+    name: 'EDELRID 遮陽面罩 Visor Sun',
+    price: 247,
+    priceConfirmed: true,
+    shortDesc: '茶色遮陽面罩 · 減少眩光',
+    compat: '相容 Tectum / Tectum Air（30mm Euroslot）。建議配面罩保護片使用。',
+    images: ACCESSORY_IMG,
+  },
+  {
+    id: 'acc-visor-fullface',
+    name: 'EDELRID 全面罩 Visor Full Face',
+    price: 380,
+    priceConfirmed: true,
+    shortDesc: '全面部防護面罩',
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
-    sourceUrl: 'https://www.vdsteenxxl.com/en/edelrid-visor-mesh-tectum-air/',
+    images: ACCESSORY_IMG,
+  },
+  {
+    id: 'acc-visor-protector',
+    name: 'EDELRID 面罩保護片 Visor Protector',
+    price: 163,
+    priceConfirmed: true,
+    shortDesc: '面罩保護片 · 延長面罩壽命',
+    compat: '配合 EDELRID 面罩使用。',
+    images: ACCESSORY_IMG,
   },
   {
     id: 'acc-earmuff',
-    name: '原廠耳罩 Helmet Ear Muffs',
-    price: 480, // ⚠️ NEEDS_CONFIRMATION 佔位價
-    priceConfirmed: false,
+    name: 'EDELRID 防噪耳罩 Ear Muffs',
+    price: 247,
+    priceConfirmed: true,
     shortDesc: '聽力保護耳罩 · 寬軟墊舒適',
-    detail:
-      '寬身、內填發泡膠密封軟墊，長時間佩戴亦舒適，可靠保護聽力。側面 Euroslot 安裝。',
     compat: '相容 Tectum / Tectum Air（側面 30mm Euroslot）。',
-    sourceUrl: 'https://edelrid.com/us-en/professional/helmet/tectum-air',
+    images: ACCESSORY_IMG,
+  },
+  {
+    id: 'acc-front-brim',
+    name: 'EDELRID 前帽簷 Front Brim',
+    price: 0, // ⚠️ NEEDS_CONFIRMATION：Google Form 截圖此項價錢被切走
+    priceConfirmed: false,
+    shortDesc: '前帽簷 · 遮擋陽光及碎屑（價錢待確認）',
+    detail:
+      'NEEDS_CONFIRMATION：Form 截圖此項價錢未能完整看到，請補上真實團購價；如今次不設此配件可刪除本項。',
+    compat: '相容 Tectum / Tectum Air。',
+    images: ACCESSORY_IMG,
   },
 ]
 
+/** 重要條款（沿用 Google Form「重要法律及營運聲明」） */
+export const TERMS: string[] = [
+  '請於提交訂單後 24 小時內，將總金額轉帳至香港攀樹學院轉數快 (FPS) 帳戶。',
+  '轉帳時請在銀行 App 備註／附言欄輸入你的「姓名」及「聯絡電話」。',
+  '付款後請將入數紙或交易截圖 WhatsApp 至團長，行政同事確認收款後方視為成功落單。',
+  '圖片及產品規格僅供參考，所有裝備以工廠最終出貨實物為準。',
+  '團購涉及跨國物流及特殊供應鏈，如遇不可抗力延誤、工廠缺貨或規格調整，學院將第一時間通知並協助安排退款。',
+  '香港攀樹學院保留隨時修改、變更、暫停或終止本團購活動之權利，並對本活動所有條款、定價、成團資格及最終結果擁有最終解釋及決定權。',
+]
+
+/** 回傳所有未確認價格的產品名稱（供頂部橫額顯示）。 */
+export function unconfirmedPriceItems(): string[] {
+  const names: string[] = []
+  if (!HELMET.priceConfirmed) names.push(HELMET.name)
+  for (const b of BUNDLES) if (!b.priceConfirmed) names.push(b.name)
+  for (const a of ACCESSORIES) if (!a.priceConfirmed) names.push(a.name)
+  return names
+}
+
 /**
  * 全部價格是否已由人手核對？
- * 全部確認並更新後，將此值改為 true，網站頂部警告橫額便會消失。
+ * 目前仍有：前帽簷價錢 + 學院 FPS 號碼待確認，故維持 false。
+ * 全部齊全後改為 true。
  */
 export const PRICES_CONFIRMED = false

@@ -9,41 +9,47 @@
 
 ---
 
-## ⚠️ 開團前必做：核對價格（NEEDS_CONFIRMATION）
+## ⚠️ 開團前必做：核對餘下 2 項（NEEDS_CONFIRMATION）
 
-> 本專案於建立時 **未能取得原始 Google Form**，因此所有價格及 FPS 付款資料
-> 目前為 **佔位數字**，並非真實團購價。正式收單前 **必須** 人手核對。
+> 產品名稱及價格已 **根據使用者提供的官方 Google Form 截圖（第 3–5 頁）填入**，
+> FPS 付款方式（收款人、24 小時期限、WhatsApp 7075 9488）亦已按 Form 第 6 頁填入。
+> 只餘 **2 項** 未齊，網站頂部橫額會列出，直到補齊：
 
-網站頂部會顯示黃色「測試模式」警告橫額，直到你完成以下步驟：
+1. **前帽簷 Front Brim 價錢** — Form 截圖此項價錢被切走。
+   請於 [`src/data/products.ts`](src/data/products.ts) 的 `acc-front-brim`
+   填入真實價，並把 `priceConfirmed` 改為 `true`（如今次不設此配件則刪除該項）。
+2. **學院 FPS 識別碼** — Google Form 本身亦留空（「請行政填寫學院號碼」）。
+   請於 [`src/data/payment.ts`](src/data/payment.ts) 填入香港攀樹學院真實
+   FPS ID／電話，並把 `fpsConfirmed` 改為 `true`。
 
-1. 開啟 [`src/data/products.ts`](src/data/products.ts)，逐項更新真實價格，
-   並把該項 `priceConfirmed` 由 `false` 改為 `true`。
-2. 開啟 [`src/data/payment.ts`](src/data/payment.ts)，填入真實 FPS 資料及付款文字。
-3. 全部確認後，把 `src/data/products.ts` 最底的 `PRICES_CONFIRMED` 改為 `true`
-   （警告橫額便會消失）。
+補齊後頂部橫額自動消失。
 
-### 需人手核對的價格清單
+### 已確認價格（來自 Google Form）
 
-| # | 項目 | 檔案位置 | 目前佔位價 |
-|---|------|----------|-----------|
-| 1 | Tectum Air 頭盔（黑/白/黃/紅/HiVis 同價） | `HELMET.price` | HK$1,180 |
-| 2 | 套裝：高清面罩防護組合 | `BUNDLES[0].price` | HK$1,680 |
-| 3 | 套裝：樹藝師核心防護三件套 | `BUNDLES[1].price` | HK$2,280 |
-| 4 | 套裝：其他現有 Google Form 套裝 | `BUNDLES[2]` | 待補（名稱/內容/價） |
-| 5 | 配件：原廠全面罩 Full Face Visor | `ACCESSORIES[0].price` | HK$620 |
-| 6 | 配件：原廠網狀面罩 Mesh Visor | `ACCESSORIES[1].price` | HK$520 |
-| 7 | 配件：原廠耳罩 Helmet Ear Muffs | `ACCESSORIES[2].price` | HK$480 |
+| 類別 | 項目 | 團購價 |
+|------|------|--------|
+| 頭盔 | 專業黑 / 純潔白 / 活力黃 / 警示紅 | HK$640 |
+| 頭盔 | 高能見度黃 HiVis | HK$650 |
+| 套裝 | 高清面罩防護組合 A款（透明面罩 + 保護片） | HK$390 |
+| 套裝 | 高清面罩防護組合 B款（遮陽面罩 + 保護片） | HK$390 |
+| 套裝 | 樹藝師核心防護三件套裝（網狀面罩 + 防噪耳罩 + 護頸片） | HK$699 |
+| 配件 | 網狀面罩 Visor Mesh | HK$346 |
+| 配件 | 透明面罩 Visor Clear | HK$247 |
+| 配件 | 遮陽面罩 Visor Sun | HK$247 |
+| 配件 | 全面罩 Visor Full Face | HK$380 |
+| 配件 | 面罩保護片 Visor Protector | HK$163 |
+| 配件 | 防噪耳罩 Ear Muffs | HK$247 |
+| 配件 | **前帽簷 Front Brim** | **⚠️ 待確認** |
 
-### 其他 NEEDS_CONFIRMATION（非價格）
+### 其他備註
 
-- **頭盔尺碼**：官方為單一可調尺寸，現按均碼落單。如今次要分尺碼，請於
-  `HELMET.notes` 及選購 UI 補上尺碼選項。
-- **FPS 付款資料**：`src/data/payment.ts` 全部欄位（收款人、FPS ID/電話、
-  付款期限、WhatsApp、付款指示文字）。若 Google Form 有指定付款文字請沿用。
-- **官方影片連結**：`OFFICIAL_SOURCES.officialVideo` 現為空。Drive 內有
-  `Edelrid helmet.m4v`，可上載到 YouTube／串流後填入 embed 連結（P1，非必需）。
-- **產品圖片**：暫以佔位色塊顯示，未引用來源不明圖片。可把官方或自攝圖片放到
-  `public/images/` 並在 `products.ts` 的 `images` 陣列填入路徑。
+- **頭盔尺碼**：官方為單一可調尺寸，現按均碼落單。
+- **影片**：首頁已 embed EDELRID 官方 YouTube 介紹片；另設「團長 ArborJason
+  親身介紹」區塊，連去 ArborJason 頻道。如有你親自介紹 Tectum Air 嘅片，於
+  `VIDEOS.arborJason.youtubeId` 填入該片 YouTube ID 即會自動 embed。
+- **產品圖片**：`public/images/` 內 `helmets-lineup.jpg`（五色頭盔）及
+  `accessories-grid.jpg`（配件）為官方 EDELRID 產品圖，取自你提供的 Google
+  Form。如有更高解像度官方圖，覆蓋同名檔案即可。
 
 ---
 
