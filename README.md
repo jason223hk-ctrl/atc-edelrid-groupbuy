@@ -115,7 +115,20 @@ Payment Status | Order Status | Raw JSON
 
 ---
 
-## 部署：Cloudflare Pages
+## 部署（一）：GitHub Pages（自動，已設定）
+
+Repo 已內置 [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)：
+每次 push 到 `main`，GitHub Actions 會自動 build 並部署到 GitHub Pages。
+
+- 網址：`https://jason223hk-ctrl.github.io/atc-edelrid-groupbuy/`
+- 首次執行會自動啟用 Pages（`actions/configure-pages` 的 `enablement: true`）。
+- 子路徑由 CI 的 `VITE_BASE` 自動處理，圖片以 `import.meta.env.BASE_URL` 前綴。
+
+**接後端**：到 repo **Settings → Secrets and variables → Actions → New repository
+secret**，加入 `VITE_APPS_SCRIPT_URL` = 你的 Apps Script `/exec` URL，然後在
+**Actions** 頁重新執行一次 workflow（或再 push 一次），收單即生效。
+
+## 部署（二）：Cloudflare Pages（可選）
 
 1. 登入 Cloudflare → **Workers & Pages → Create → Pages → Connect to Git**。
 2. 選擇 GitHub repo `jason223hk-ctrl/atc-edelrid-groupbuy`，分支 `main`。
