@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Cart } from '../lib/useCart'
 import { HELMET, BUNDLES, ACCESSORIES } from '../data/products'
-import type { SimpleProduct } from '../data/products'
+import type { SimpleProduct, Component } from '../data/products'
 import { formatMoney } from '../lib/order'
 import { QtyStepper } from './QtyStepper'
 import { DetailModal, type DetailData } from './DetailModal'
@@ -11,6 +11,23 @@ interface Props {
   cart: Cart
   onBack: () => void
   onNext: () => void
+}
+
+/** 套裝內容圖片分解：頭盔（另購）＋ 各配件，用「＋」連接，一睇就明。 */
+function ComponentStrip({ items }: { items: Component[] }) {
+  return (
+    <div className="comp-strip">
+      {items.map((c, i) => (
+        <div className="comp-cell" key={c.label}>
+          {i > 0 && <span className="comp-plus">＋</span>}
+          <div className="comp-inner">
+            <img src={c.img} alt={c.label} loading="lazy" className={c.reference ? 'ref' : ''} />
+            <span className={'comp-label' + (c.reference ? ' ref' : '')}>{c.label}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 function PriceTag({ price, confirmed }: { price: number; confirmed: boolean }) {
@@ -143,7 +160,7 @@ export function Shop({ cart, onBack, onNext }: Props) {
                           includes: b.includes,
                           compat: b.compat,
                           sourceUrl: b.sourceUrl,
-                          images: b.images,
+                          components: b.components,
                         })
                       }
                     >
@@ -153,6 +170,7 @@ export function Shop({ cart, onBack, onNext }: Props) {
                 </div>
                 <QtyStepper value={qty} onChange={(d) => cart.changeQty(line, d)} />
               </div>
+              {b.components && <ComponentStrip items={b.components} />}
             </div>
           )
         })}
@@ -167,6 +185,9 @@ export function Shop({ cart, onBack, onNext }: Props) {
           return (
             <div className={'card' + (qty > 0 ? ' selected' : '')} key={a.id}>
               <div className="prow">
+                {a.images?.[0] && (
+                  <img className="acc-thumb" src={a.images[0]} alt={a.name} loading="lazy" />
+                )}
                 <div className="body">
                   <h3>{a.name}</h3>
                   <p className="muted" style={{ fontSize: '0.85rem', margin: '2px 0 6px' }}>

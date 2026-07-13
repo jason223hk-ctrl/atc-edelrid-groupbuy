@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import type { Component } from '../data/products'
 
 export interface DetailData {
   name: string
@@ -9,6 +10,7 @@ export interface DetailData {
   notes?: readonly string[]
   sourceUrl?: string
   images?: readonly string[]
+  components?: readonly Component[]
 }
 
 interface Props {
@@ -38,11 +40,23 @@ export function DetailModal({ data, onClose }: Props) {
         </button>
         <h2 style={{ paddingRight: 40 }}>{data.name}</h2>
 
-        {data.images && data.images.length > 0 ? (
+        {data.components && data.components.length > 0 ? (
+          <div className="comp-strip" style={{ borderTop: 'none', paddingTop: 0, marginTop: 0, marginBottom: 12 }}>
+            {data.components.map((c, i) => (
+              <div className="comp-cell" key={c.label}>
+                {i > 0 && <span className="comp-plus">＋</span>}
+                <div className="comp-inner">
+                  <img src={c.img} alt={c.label} className={c.reference ? 'ref' : ''} />
+                  <span className={'comp-label' + (c.reference ? ' ref' : '')}>{c.label}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : data.images && data.images.length > 0 ? (
           <img
             src={data.images[0]}
             alt={data.name}
-            style={{ width: '100%', borderRadius: 4, marginBottom: 12 }}
+            style={{ width: '100%', maxWidth: 320, display: 'block', margin: '0 auto 12px', background: '#fff', borderRadius: 4 }}
           />
         ) : (
           <div className="img-ph" style={{ marginBottom: 12 }}>

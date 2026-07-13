@@ -830,3 +830,68 @@ small {
   margin-left: 8px;
   font-variant-numeric: tabular-nums;
 }
+
+/* accessory card thumbnail */
+.acc-thumb {
+  width: 68px;
+  height: 68px;
+  flex: none;
+  object-fit: contain;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+/* bundle 內容圖片分解：頭盔 ＋ 配件 */
+.comp-strip {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  overflow-x: auto;
+}
+.comp-cell {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.comp-plus {
+  color: var(--green);
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 0 4px;
+  flex: none;
+}
+.comp-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+.comp-inner img {
+  width: 100%;
+  max-width: 84px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+.comp-inner img.ref {
+  opacity: 0.72;
+  border-style: dashed;
+}
+.comp-label {
+  font-size: 0.72rem;
+  text-align: center;
+  color: var(--text);
+  line-height: 1.2;
+}
+.comp-label.ref {
+  color: var(--muted);
+}

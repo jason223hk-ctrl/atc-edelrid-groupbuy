@@ -100,6 +100,14 @@ export const HELMET = {
   ] as HelmetColor[],
 } as const
 
+/** 套裝／產品圖示組件（頭盔 + 各配件），用於「一睇就明」的圖片分解。 */
+export interface Component {
+  img: string
+  label: string
+  /** true = 只作示意（例如頭盔另購），不計入套裝內容 */
+  reference?: boolean
+}
+
 export interface SimpleProduct {
   id: string
   name: string
@@ -112,9 +120,22 @@ export interface SimpleProduct {
   images?: string[]
   sourceUrl?: string
   includes?: string[]
+  /** 套裝內容的圖片分解（頭盔另購 + 各配件） */
+  components?: Component[]
 }
 
-const ACCESSORY_IMG = ['/images/accessories-grid.jpg']
+const IMG = {
+  helmet: '/images/helmet-thumb.jpg',
+  clear: '/images/acc-visor-clear.jpg',
+  sun: '/images/acc-visor-sun.jpg',
+  fullface: '/images/acc-visor-fullface.jpg',
+  mesh: '/images/acc-visor-mesh.jpg',
+  protector: '/images/acc-visor-protector.jpg',
+  earmuff: '/images/acc-earmuff.jpg',
+  brim: '/images/acc-front-brim.jpg',
+  neck: '/images/acc-neck.jpg',
+}
+const HELMET_REF: Component = { img: IMG.helmet, label: '頭盔（另購）', reference: true }
 
 /** B. 精選核心防護組合（可揀多款、可揀多件） */
 export const BUNDLES: SimpleProduct[] = [
@@ -128,7 +149,11 @@ export const BUNDLES: SimpleProduct[] = [
       '透明高清面罩連專用面罩保護片，透過 Euroslot 快速裝拆，提供全面部防護。',
     includes: ['EDELRID 透明面罩 Visor Clear ×1', 'EDELRID 面罩保護片 Visor Protector ×1'],
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
-    images: ACCESSORY_IMG,
+    components: [
+      HELMET_REF,
+      { img: IMG.clear, label: '透明面罩' },
+      { img: IMG.protector, label: '保護片' },
+    ],
   },
   {
     id: 'bundle-visor-sun',
@@ -140,7 +165,11 @@ export const BUNDLES: SimpleProduct[] = [
       '遮陽（茶色）高清面罩連專用面罩保護片，減少強光及眩光，適合日曬環境作業。',
     includes: ['EDELRID 遮陽面罩 Visor Sun ×1', 'EDELRID 面罩保護片 Visor Protector ×1'],
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
-    images: ACCESSORY_IMG,
+    components: [
+      HELMET_REF,
+      { img: IMG.sun, label: '遮陽面罩' },
+      { img: IMG.protector, label: '保護片' },
+    ],
   },
   {
     id: 'bundle-core3',
@@ -156,7 +185,12 @@ export const BUNDLES: SimpleProduct[] = [
       'EDELRID 護頸片 Neck Protector ×1',
     ],
     compat: '全部以 Euroslot 安裝於 Tectum / Tectum Air。',
-    images: ACCESSORY_IMG,
+    components: [
+      HELMET_REF,
+      { img: IMG.mesh, label: '網狀面罩' },
+      { img: IMG.earmuff, label: '防噪耳罩' },
+      { img: IMG.neck, label: '護頸片' },
+    ],
   },
 ]
 
@@ -169,7 +203,7 @@ export const ACCESSORIES: SimpleProduct[] = [
     priceConfirmed: true,
     shortDesc: '網狀面罩 · 透氣不阻視線 · 減少反光',
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
-    images: ACCESSORY_IMG,
+    images: [IMG.mesh],
   },
   {
     id: 'acc-visor-clear',
@@ -178,7 +212,7 @@ export const ACCESSORIES: SimpleProduct[] = [
     priceConfirmed: true,
     shortDesc: '透明高清面罩 · 全面部防護',
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。建議配面罩保護片使用。',
-    images: ACCESSORY_IMG,
+    images: [IMG.clear],
   },
   {
     id: 'acc-visor-sun',
@@ -187,7 +221,7 @@ export const ACCESSORIES: SimpleProduct[] = [
     priceConfirmed: true,
     shortDesc: '茶色遮陽面罩 · 減少眩光',
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。建議配面罩保護片使用。',
-    images: ACCESSORY_IMG,
+    images: [IMG.sun],
   },
   {
     id: 'acc-visor-fullface',
@@ -196,7 +230,7 @@ export const ACCESSORIES: SimpleProduct[] = [
     priceConfirmed: true,
     shortDesc: '全面部防護面罩',
     compat: '相容 Tectum / Tectum Air（30mm Euroslot）。',
-    images: ACCESSORY_IMG,
+    images: [IMG.fullface],
   },
   {
     id: 'acc-visor-protector',
@@ -205,7 +239,7 @@ export const ACCESSORIES: SimpleProduct[] = [
     priceConfirmed: true,
     shortDesc: '面罩保護片 · 延長面罩壽命',
     compat: '配合 EDELRID 面罩使用。',
-    images: ACCESSORY_IMG,
+    images: [IMG.protector],
   },
   {
     id: 'acc-earmuff',
@@ -214,7 +248,7 @@ export const ACCESSORIES: SimpleProduct[] = [
     priceConfirmed: true,
     shortDesc: '聽力保護耳罩 · 寬軟墊舒適',
     compat: '相容 Tectum / Tectum Air（側面 30mm Euroslot）。',
-    images: ACCESSORY_IMG,
+    images: [IMG.earmuff],
   },
   {
     id: 'acc-front-brim',
@@ -225,7 +259,7 @@ export const ACCESSORIES: SimpleProduct[] = [
     detail:
       'NEEDS_CONFIRMATION：Form 截圖此項價錢未能完整看到，請補上真實團購價；如今次不設此配件可刪除本項。',
     compat: '相容 Tectum / Tectum Air。',
-    images: ACCESSORY_IMG,
+    images: [IMG.brim],
   },
 ]
 
