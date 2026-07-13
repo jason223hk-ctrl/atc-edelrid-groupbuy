@@ -9,22 +9,12 @@
 
 ---
 
-## ⚠️ 開團前必做：核對餘下 2 項（NEEDS_CONFIRMATION）
+## 價格及付款（已全部核對）
 
-> 產品名稱及價格已 **根據使用者提供的官方 Google Form 截圖（第 3–5 頁）填入**，
-> FPS 付款方式（收款人、24 小時期限、WhatsApp 7075 9488）亦已按 Form 第 6 頁填入。
-> 只餘 **2 項** 未齊，網站頂部橫額會列出，直到補齊：
+> 所有產品名稱、價格及 FPS 付款資料已 **根據使用者提供的官方 Google Form
+> 截圖逐項核對填入**，**無待確認項目**，網站頂部亦不再顯示警告橫額。
 
-1. **前帽簷 Front Brim 價錢** — Form 截圖此項價錢被切走。
-   請於 [`src/data/products.ts`](src/data/products.ts) 的 `acc-front-brim`
-   填入真實價，並把 `priceConfirmed` 改為 `true`（如今次不設此配件則刪除該項）。
-2. **學院 FPS 識別碼** — Google Form 本身亦留空（「請行政填寫學院號碼」）。
-   請於 [`src/data/payment.ts`](src/data/payment.ts) 填入香港攀樹學院真實
-   FPS ID／電話，並把 `fpsConfirmed` 改為 `true`。
-
-補齊後頂部橫額自動消失。
-
-### 已確認價格（來自 Google Form）
+### 團購價（來自 Google Form）
 
 | 類別 | 項目 | 團購價 |
 |------|------|--------|
@@ -39,7 +29,13 @@
 | 配件 | 全面罩 Visor Full Face | HK$380 |
 | 配件 | 面罩保護片 Visor Protector | HK$163 |
 | 配件 | 防噪耳罩 Ear Muffs | HK$247 |
-| 配件 | **前帽簷 Front Brim** | **⚠️ 待確認** |
+| 配件 | 前帽簷 Front Brim | HK$123 |
+| 配件 | 全帽簷 Full Brim | HK$280 |
+| 配件 | 護頸片 Neck Protector | HK$123 |
+
+**付款**：收款人 Hong Kong Academy for Tree Climbing；轉數快 FPS 電話
+**7075 9488**；提交後 24 小時內轉帳；銀行備註填姓名 + 電話；截圖 WhatsApp 至
+7075 9488 由行政確認。
 
 ### 其他備註
 

@@ -1,18 +1,14 @@
 /**
- * FPS 付款資料 —— 根據 Google Form 第 6 頁付款指示填入。
- *
- * ⚠️ 唯一仍待確認：`fpsId`（學院轉數快識別碼）。
- *    Google Form 本身亦留空（「請行政填寫學院號碼」），故此處為佔位，
- *    請由行政填入香港攀樹學院的真實 FPS ID／電話後，把 `fpsConfirmed` 設為 true。
+ * FPS 付款資料 —— 根據 Google Form 第 6 頁付款指示 + 使用者提供之 FPS 號碼填入。
  */
 export const PAYMENT = {
   // 收款人（已確認）
   payeeName: 'Hong Kong Academy for Tree Climbing（香港攀樹學院）',
 
-  // ⚠️ NEEDS_CONFIRMATION：學院 FPS 識別碼 / 電話
-  fpsId: '（待行政填寫學院 FPS 號碼）',
-  fpsPhone: '',
-  fpsConfirmed: false,
+  // 學院轉數快 FPS（已確認：以電話號碼登記）
+  fpsId: '',
+  fpsPhone: '7075 9488',
+  fpsConfirmed: true,
 
   // 付款期限（已確認）
   deadlineText: '請於提交訂單後 24 小時內完成轉帳',

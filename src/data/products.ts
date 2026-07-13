@@ -3,12 +3,8 @@
  *  ATC 第一團 — EDELRID Tectum Air 團購產品資料
  * ============================================================================
  *
- *  價格已根據使用者提供的官方 Google Form 截圖（第 3–5 頁）填入。
- *  仍待確認項目已標記 `priceConfirmed: false` 及 NEEDS_CONFIRMATION：
- *    - 原廠配件「前帽簷 Front Brim」價錢（Form 截圖被切走）
- *    - 學院 FPS 識別碼（見 payment.ts；Form 本身亦留空由行政填寫）
- *
- *  全部確認後，把檔案底部 `PRICES_CONFIRMED` 設為 true，網站頂部警告橫額消失。
+ *  所有產品名稱及價格已根據使用者提供的官方 Google Form 截圖（第 3–5 頁）
+ *  逐項核對填入；FPS 付款資料見 payment.ts，亦已確認。無待確認項目。
  * ============================================================================
  */
 
@@ -131,6 +127,7 @@ const IMG = {
   protector: '/images/acc-visor-protector.jpg',
   earmuff: '/images/acc-earmuff.jpg',
   brim: '/images/acc-front-brim.jpg',
+  fullBrim: '/images/acc-full-brim.jpg',
   neck: '/images/acc-neck.jpg',
 }
 const HELMET_REF: Component = { img: IMG.helmet, label: '頭盔（另購）', reference: true }
@@ -251,13 +248,29 @@ export const ACCESSORIES: SimpleProduct[] = [
   {
     id: 'acc-front-brim',
     name: 'EDELRID 前帽簷 Front Brim',
-    price: 0, // ⚠️ NEEDS_CONFIRMATION：Google Form 截圖此項價錢被切走
-    priceConfirmed: false,
-    shortDesc: '前帽簷 · 遮擋陽光及碎屑（價錢待確認）',
-    detail:
-      'NEEDS_CONFIRMATION：Form 截圖此項價錢未能完整看到，請補上真實團購價；如今次不設此配件可刪除本項。',
+    price: 123,
+    priceConfirmed: true,
+    shortDesc: '前帽簷 · 遮擋前方陽光及碎屑',
     compat: '相容 Tectum / Tectum Air。',
     images: [IMG.brim],
+  },
+  {
+    id: 'acc-full-brim',
+    name: 'EDELRID 全帽簷 Full Brim',
+    price: 280,
+    priceConfirmed: true,
+    shortDesc: '全帽簷 · 全周遮陽 · 保護頸背',
+    compat: '相容 Tectum / Tectum Air。',
+    images: [IMG.fullBrim],
+  },
+  {
+    id: 'acc-neck',
+    name: 'EDELRID 護頸片 Neck Protector',
+    price: 123,
+    priceConfirmed: true,
+    shortDesc: '護頸片 · 保護頸背免受碎屑及陽光',
+    compat: '相容 Tectum / Tectum Air。',
+    images: [IMG.neck],
   },
 ]
 
@@ -280,9 +293,5 @@ export function unconfirmedPriceItems(): string[] {
   return names
 }
 
-/**
- * 全部價格是否已由人手核對？
- * 目前仍有：前帽簷價錢 + 學院 FPS 號碼待確認，故維持 false。
- * 全部齊全後改為 true。
- */
-export const PRICES_CONFIRMED = false
+/** 全部價格及 FPS 已核對。 */
+export const PRICES_CONFIRMED = true

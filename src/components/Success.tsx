@@ -105,10 +105,12 @@ export function Success({ order, onRestart }: Props) {
             <span className="k">收款人</span>
             <span className="v">{PAYMENT.payeeName}</span>
           </div>
-          <div className="row">
-            <span className="k">FPS 識別碼</span>
-            <span className="v mono">{PAYMENT.fpsId}</span>
-          </div>
+          {PAYMENT.fpsId && (
+            <div className="row">
+              <span className="k">FPS 識別碼</span>
+              <span className="v mono">{PAYMENT.fpsId}</span>
+            </div>
+          )}
           {PAYMENT.fpsPhone && (
             <div className="row">
               <span className="k">FPS 電話</span>
