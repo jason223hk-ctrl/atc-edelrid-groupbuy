@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#0a0d0a"/>
+  <!-- helmet silhouette -->
+  <path d="M14 40a18 18 0 0 1 36 0v3a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2z" fill="#c8ff00"/>
+  <rect x="12" y="44" width="40" height="5" rx="2.5" fill="#9dcc00"/>
+  <circle cx="32" cy="30" r="4" fill="#0a0d0a"/>
+</svg>
