@@ -45,9 +45,7 @@ export const VIDEOS = {
   // 團長 Jason Ma（ArborJason）— 森伝園藝 / 香港攀樹學院創辦人
   arborJason: {
     channelUrl: 'https://www.youtube.com/c/ArborJason',
-    // NEEDS_CONFIRMATION：如有 ArborJason 親自介紹 Tectum Air 嘅片，
-    // 填入該片 YouTube ID（例：'abcd1234XYZ'）即會自動 embed。
-    youtubeId: '',
+    youtubeId: 'DWn7IJlt4yA', // 團長親身介紹 Tectum Air
     label: '團長 ArborJason 親身介紹',
   },
 } as const
