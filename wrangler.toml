@@ -1,0 +1,9 @@
+# Cloudflare Workers 靜態網站部署設定（Workers Builds / npx wrangler deploy）
+# 將 Vite build 出嚟嘅 dist 資料夾以靜態資源方式上線，無需 Worker 程式碼。
+name = "atc-edelrid-groupbuy"
+compatibility_date = "2025-01-01"
+
+[assets]
+directory = "./dist"
+# 單頁 App：搵唔到路徑時回退到 index.html
+not_found_handling = "single-page-application"
