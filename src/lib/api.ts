@@ -1,6 +1,12 @@
 import type { OrderPayload } from './types'
 
-const ENDPOINT = import.meta.env.VITE_APPS_SCRIPT_URL as string | undefined
+// 收單後端：Google Apps Script Web App。
+// 預設用學院已部署的 /exec；如要更換，設定環境變數 VITE_APPS_SCRIPT_URL 即可覆蓋。
+// （此為公開的訂單接收端點，非機密憑證。）
+const DEFAULT_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbxNzUkrh1jYTr-zilzd42fnRWzKtcceOlvhLZndUtU8s3vXU8pFt4xQa11gtX3rUnJyPQ/exec'
+const ENDPOINT =
+  (import.meta.env.VITE_APPS_SCRIPT_URL as string | undefined) || DEFAULT_ENDPOINT
 
 export interface SubmitResult {
   ok: boolean
